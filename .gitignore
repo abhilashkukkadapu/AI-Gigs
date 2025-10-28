@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.DS_Store
+.env
+.venv/
+.env.local
+.env.*.local
+node_modules/
+.coverage
+htmlcov/
+.pytest_cache/
+
+media/
+exports/
+data/
+web/dist/
+
+# Editors
+.vscode/
+.idea/
