@@ -125,7 +125,11 @@ def transcode_to_hls(input_path: Path, output_dir: Path, renditions: Optional[Li
         variant_dir = output_dir / r.name
         _ensure_dir(variant_dir)
         # Force original aspect ratio, pad to ensure exact WxH if desired; here, we scale to fit within box
-        vf = f"scale=w={r.width}:h={r.height}:force_original_aspect_ratio=decrease,setsar=1"
+        # Scale to fit within target while preserving AR, then pad to exact even WxH to satisfy encoders
+        vf = (
+            f"scale=w={r.width}:h={r.height}:force_original_aspect_ratio=decrease,"
+            f"pad={r.width}:{r.height}:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1"
+        )
         hls_cmd: List[str] = [
             "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
             "-i", str(input_path),
